@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PennCloud | View Email</title>
+    <style>
+        /* Base Reset & Typography */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100dvh; 
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+            color: #333333;
+        }
+
+        /* Blurred Background Image */
+        body::before {
+            content: "";
+            position: fixed;
+            top: -20px; left: -20px; right: -20px; bottom: -20px;
+            background-image: url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2000'); 
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px);
+            z-index: -1;
+        }
+
+        /* Top Navigation Bar */
+        .navbar {
+            width: 100%;
+            max-width: 2000px;
+            background-color: rgba(255, 255, 255, 0.90);
+            -webkit-backdrop-filter: blur(12px); 
+            backdrop-filter: blur(12px);
+            padding: 15px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 4px solid #990000;
+        }
+        .navbar-brand h1 {
+            color: #011F5B;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .navbar-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .btn-nav {
+            color: #011F5B;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+        }
+        .btn-nav:hover {
+            background-color: rgba(1, 31, 91, 0.1);
+        }
+
+        /* Main View Container */
+        .view-container {
+            width: 100%;
+            max-width: 2000px;
+            background-color: rgba(255, 255, 255, 0.95);
+            -webkit-backdrop-filter: blur(12px); 
+            backdrop-filter: blur(12px);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            min-height: 600px;
+        }
+
+        /* Action Toolbar */
+        .view-toolbar {
+            padding: 20px 30px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+        .btn-toolbar {
+            background-color: #f0f0f0;
+            color: #333333;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid #dcdcdc;
+        }
+        .btn-toolbar:hover {
+            background-color: #e4e4e4;
+        }
+        .btn-reply {
+            background-color: #011F5B;
+            color: #ffffff;
+            border: none;
+        }
+        .btn-reply:hover {
+            background-color: #011640;
+        }
+        .btn-delete {
+            color: #990000;
+            border-color: #ffcccc;
+            background-color: #fff0f0;
+        }
+        .btn-delete:hover {
+            background-color: #ffe4e4;
+        }
+
+        /* Email Header (Subject, Sender, Date) */
+        .email-header {
+            padding: 30px 40px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        }
+        .email-subject {
+            font-size: 26px;
+            font-weight: 700;
+            color: #011F5B;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+        .email-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .email-sender-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .sender-name {
+            font-weight: 700;
+            font-size: 16px;
+        }
+        .sender-email {
+            color: #555555;
+            font-size: 14px;
+        }
+        .email-date-info {
+            color: #777777;
+            font-size: 14px;
+            text-align: right;
+        }
+
+        /* Email Body */
+        .email-body {
+            padding: 40px;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #222222;
+            white-space: pre-wrap; /* Preserves line breaks from raw text */
+            flex-grow: 1;
+        }
+
+        /* Trademark Section */
+        .trademark {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 13px;
+            color: #ffffff;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+            padding-bottom: 20px;
+        }
+        .trademark span {
+            font-weight: 700;
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 700px) {
+            .navbar {
+                flex-direction: column;
+                padding: 15px;
+            }
+            .view-toolbar {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+            }
+            .btn-toolbar {
+                justify-content: center;
+            }
+            .email-header {
+                padding: 20px;
+            }
+            .email-meta {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .email-date-info {
+                text-align: left;
+            }
+            .email-body {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <h1>PennCloud Webmail</h1>
+        </div>
+        <div class="navbar-controls">
+            <a href="/dashboard" class="btn-nav">Dashboard</a>
+            <a href="/logout" class="btn-nav" style="color: #990000;">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Main View Area -->
+    <main class="view-container">
+        
+        <!-- Action Toolbar -->
+        <div class="view-toolbar">
+            <a href="/inbox" class="btn-toolbar">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Back to Inbox
+            </a>
+            
+            <!-- Contextual Actions -->
+            <div style="display: flex; gap: 10px;">
+                <a href="/compose?reply_id={{EMAIL_ID}}" class="btn-toolbar btn-reply">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 17 4 12 9 7"></polyline>
+                        <path d="M20 18v-2a4 4 0 0 0-4-4H4"></path>
+                    </svg>
+                    Reply
+                </a>
+                <a href="/api/delete_email?id={{EMAIL_ID}}" class="btn-toolbar btn-delete">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                    Delete
+                </a>
+            </div>
+        </div>
+
+        <div class="email-header">
+            <div class="email-subject">{{SUBJECT}}</div>
+            <div class="email-meta">
+                <div class="email-sender-info">
+                    <div class="sender-name">{{SENDER}}</div>
+                    <div class="sender-email" style="margin-top: 5px;">To: {{RECIPIENT}}</div>
+                </div>
+                <div class="email-date-info">
+                    {{TIMESTAMP}}
+                </div>
+            </div>
+        </div>
+
+        <div class="email-body">{{BODY}}</div>
+
+    </main>
+
+    <!-- Footer -->
+    <div class="trademark">
+        &copy; 2026 <span>Team 13</span> | CIS 5050: Software Systems
+    </div>
+
+</body>
+</html>

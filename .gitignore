@@ -1,0 +1,14 @@
+# Ignore KV Storage data directories and chunk files
+data_*/
+*.chunk
+
+# Ignore compiled object files
+*.o
+
+# Ignore compiled binaries
+kvstore
+test
+frontend_server
+
+# Ignore OS-generated files (optional)
+.DS_Store

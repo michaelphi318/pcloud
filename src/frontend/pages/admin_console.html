@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PennCloud | Admin Console</title>
+    <style>
+        /* Base Reset & Typography */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100dvh; 
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+            color: #333333;
+        }
+
+        /* Blurred Background Image */
+        body::before {
+            content: "";
+            position: fixed;
+            top: -20px; left: -20px; right: -20px; bottom: -20px;
+            background-image: url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2000'); 
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px);
+            z-index: -1;
+        }
+
+        /* Top Navigation Bar */
+        .navbar {
+            width: 100%;
+            max-width: 2000px;
+            background-color: rgba(255, 255, 255, 0.90);
+            -webkit-backdrop-filter: blur(12px); 
+            backdrop-filter: blur(12px);
+            padding: 15px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 4px solid #990000;
+        }
+        .navbar-brand h1 {
+            color: #011F5B;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .navbar-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .btn-nav {
+            color: #011F5B;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+        }
+        .btn-nav:hover {
+            background-color: rgba(1, 31, 91, 0.1);
+        }
+
+        /* Main Admin Container */
+        .admin-container {
+            width: 100%;
+            max-width: 2000px;
+            background-color: rgba(255, 255, 255, 0.95);
+            -webkit-backdrop-filter: blur(12px); 
+            backdrop-filter: blur(12px);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            min-height: 700px;
+        }
+
+        /* Admin Header */
+        .admin-header {
+            padding: 25px 30px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.5);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .admin-header h2 {
+            color: #011F5B;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        .system-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #2e7d32;
+            background-color: #e8f5e9;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid #c8e6c9;
+        }
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background-color: #4caf50;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #4caf50;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4); }
+            70% { box-shadow: 0 0 0 6px rgba(76, 175, 80, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+        }
+
+        /* Dashboard Grid Layout */
+        .admin-content {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            flex-grow: 1;
+        }
+
+        /* Cards */
+        .card {
+            background: #ffffff;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .card-header {
+            padding: 15px 20px;
+            background-color: rgba(1, 31, 91, 0.03);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            font-weight: 700;
+            color: #011F5B;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .card-body {
+            padding: 20px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        /* Node List */
+        .node-list {
+            list-style: none;
+        }
+        .node-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .node-item:last-child {
+            border-bottom: none;
+        }
+        .node-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .node-down .status-dot {
+            background-color: #d32f2f;
+            box-shadow: none;
+            animation: none;
+        }
+        .btn-node {
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-stop {
+            background-color: #fff0f0;
+            color: #990000;
+            border: 1px solid #ffcccc;
+        }
+        .btn-stop:hover { background-color: #ffe4e4; }
+        .btn-start {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+        .btn-start:hover { background-color: #c8e6c9; }
+
+        /* Data Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .data-table th {
+            text-align: left;
+            padding: 12px;
+            background-color: #f8f9fa;
+            color: #555;
+            font-weight: 600;
+            border-bottom: 2px solid #eaeaea;
+        }
+        .data-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eaeaea;
+            color: #333;
+        }
+        .data-table tr:hover td {
+            background-color: rgba(1, 31, 91, 0.02);
+        }
+
+        /* Server Logs Console */
+        .console-box {
+            background-color: #1e1e1e;
+            color: #00ff00;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            padding: 15px;
+            border-radius: 6px;
+            height: 250px;
+            overflow-y: auto;
+            line-height: 1.5;
+        }
+        .log-error { color: #ff5555; }
+        .log-warn { color: #f1fa8c; }
+        .log-info { color: #8be9fd; }
+
+        /* Trademark Section */
+        .trademark {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 13px;
+            color: #ffffff;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+            padding-bottom: 20px;
+        }
+        .trademark span {
+            font-weight: 700;
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 900px) {
+            .admin-content {
+                grid-template-columns: 1fr;
+            }
+            .navbar {
+                flex-direction: column;
+                padding: 15px;
+            }
+            .admin-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .data-table th, .data-table td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <h1>PennCloud Admin</h1>
+        </div>
+        <div class="navbar-controls">
+            <a href="/dashboard" class="btn-nav">Dashboard</a>
+            <a href="/inbox" class="btn-nav">Webmail</a>
+            <a href="/logout" class="btn-nav" style="color: #990000;">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Main Admin Area -->
+    <main class="admin-container">
+        
+        <div class="admin-header">
+            <h2>Cluster Control Panel</h2>
+            <div class="system-status">
+                <div class="status-dot"></div>
+                Cluster Healthy
+            </div>
+        </div>
+
+        <div class="admin-content">
+            
+            <!-- Left Column: Node Management -->
+            <div class="grid-column">
+                <div class="card" style="margin-bottom: 30px;">
+                    <div class="card-header">
+                        Frontend Servers
+                    </div>
+                    <div class="card-body">
+                        <ul class="node-list">
+                            <!-- Target POST routes in C++ backend to handle node lifecycle -->
+                            <li class="node-item">
+                                <div class="node-info">
+                                    <div class="status-dot"></div>
+                                    FE_Node_01 (127.0.0.1:8001)
+                                </div>
+                                <form action="/api/admin/stop" method="POST"><input type="hidden" name="node_port" value="8001"><button type="submit" class="btn-node btn-stop">Stop</button></form>
+                                <form action="/api/admin/start" method="POST"><input type="hidden" name="node_port" value="8001"><button type="submit" class="btn-node btn-start">Start</button></form>
+                            </li>
+                            <li class="node-item">
+                                <div class="node-info">
+                                    <div class="status-dot"></div>
+                                    FE_Node_02 (127.0.0.1:8002)
+                                </div>
+                                <form action="/api/admin/stop" method="POST"><input type="hidden" name="node_port" value="8002"><button type="submit" class="btn-node btn-stop">Stop</button></form>
+                                <form action="/api/admin/start" method="POST"><input type="hidden" name="node_port" value="8002"><button type="submit" class="btn-node btn-start">Start</button></form>
+                            </li>
+                            <li class="node-item">
+                                <div class="node-info">
+                                    <div class="status-dot"></div>
+                                    FE_Node_03 (127.0.0.1:8003)
+                                </div>
+                                <form action="/api/admin/stop" method="POST"><input type="hidden" name="node_port" value="8003"><button type="submit" class="btn-node btn-stop">Stop</button></form>
+                                <form action="/api/admin/start" method="POST"><input type="hidden" name="node_port" value="8003"><button type="submit" class="btn-node btn-start">Start</button></form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        Backend Key-Value Store
+                    </div>
+                    <div class="card-body">
+                        <ul class="node-list">
+                            <li class="node-item">
+                                <div class="node-info">
+                                    <div class="status-dot"></div>
+                                    KV_Master (127.0.0.1:9000)
+                                </div>
+                                <form action="/api/admin/stop" method="POST"><input type="hidden" name="node_id" value="KV_Master"><button type="submit" class="btn-node btn-stop">Stop</button></form>
+                            </li>
+                            <li class="node-item">
+                                <div class="node-info">
+                                    <div class="status-dot"></div>
+                                    KV_Worker_01 (127.0.0.1:9001)
+                                </div>
+                                <form action="/api/admin/stop" method="POST"><input type="hidden" name="node_id" value="KV_Worker_01"><button type="submit" class="btn-node btn-stop">Stop</button></form>
+                            </li>
+                            <li class="node-item node-down">
+                                <div class="node-info">
+                                    <div class="status-dot"></div>
+                                    KV_Worker_02 (127.0.0.1:9002)
+                                </div>
+                                <form action="/api/admin/start" method="POST"><input type="hidden" name="node_id" value="KV_Worker_02"><button type="submit" class="btn-node btn-start">Start</button></form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Data Explorer & Logs -->
+            <div class="grid-column">
+                <div class="card" style="margin-bottom: 30px;">
+                    <div class="card-header">
+                        Key-Value Store Explorer (Users Table)
+                        <!-- Simple form to query specific KV pairs -->
+                        <form action="/admin" method="GET" style="display: flex; gap: 5px;">
+                            <input type="text" name="search" placeholder="Search row key..." style="padding: 4px 8px; border: 1px solid #ccc; border-radius: 4px; outline: none; font-size: 12px;">
+                            <button type="submit" style="padding: 4px 10px; background-color: #011F5B; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">Query</button>
+                        </form>
+                    </div>
+                    <div class="card-body" style="padding: 0;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Row Key (Username)</th>
+                                    <th>Column: Password Hash</th>
+                                    <th>Column: Storage Bytes</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- MOCK DATA: Rendered by C++ backend -->
+                                <tr>
+                                    <td style="font-weight: 600;">manhcuongphi</td>
+                                    <td style="font-family: monospace; color: #666;">$2b$12$eImiTXuW...</td>
+                                    <td>1.2 MB</td>
+                                    <td><a href="#" style="color: #990000; font-size: 13px; text-decoration: none;">Wipe Data</a></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: 600;">linhphan</td>
+                                    <td style="font-family: monospace; color: #666;">$2b$12$K9s2aP1...</td>
+                                    <td>5.4 MB</td>
+                                    <td><a href="#" style="color: #990000; font-size: 13px; text-decoration: none;">Wipe Data</a></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: 600;">johndoe</td>
+                                    <td style="font-family: monospace; color: #666;">$2b$12$Xz9LqR5...</td>
+                                    <td>340 KB</td>
+                                    <td><a href="#" style="color: #990000; font-size: 13px; text-decoration: none;">Wipe Data</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        Cluster Event Logs
+                    </div>
+                    <div class="card-body" style="padding: 0;">
+                        <div class="console-box">
+                            <span class="log-info">[10:34:12.045] INFO:</span> FE_Node_01 binding to 127.0.0.1:8001<br>
+                            <span class="log-info">[10:34:12.080] INFO:</span> KV_Master accepted connection from FE_Node_01<br>
+                            <span class="log-warn">[10:35:01.200] WARN:</span> High latency detected on KV_Worker_01 heartbeat (450ms)<br>
+                            <span>[10:36:15.112] DEBUG:</span> User 'manhcuongphi' authenticated successfully.<br>
+                            <span>[10:36:15.890] DEBUG:</span> GET /inbox HTTP/1.1 handled by FE_Node_01<br>
+                            <span class="log-error">[10:42:05.001] ERROR:</span> KV_Worker_02 heartbeat timeout. Marking node as DOWN.<br>
+                            <span class="log-warn">[10:42:05.105] WARN:</span> KV_Master initiating partition re-replication...<br>
+                            <span class="log-info">[10:42:08.900] INFO:</span> Re-replication complete. Data consistency restored.<br>
+                            <span class="cursor" style="animation: blink 1s step-end infinite;">_</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div class="trademark">
+        &copy; 2026 <span>Team 13</span> | CIS 5050: Software Systems
+    </div>
+
+</body>
+</html>

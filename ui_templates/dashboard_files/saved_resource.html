@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<!-- saved from url=(0012)about:srcdoc -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PennCloud | Dashboard</title>
+    <style>
+        /* Base Reset & Typography */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100dvh; 
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Blurred Background Image (Matches Login/Signup) */
+        body::before {
+            content: "";
+            position: fixed;
+            top: -20px; left: -20px; right: -20px; bottom: -20px;
+            background-image: url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2000'); 
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px);
+            z-index: -1;
+        }
+
+        /* Top Navigation Bar */
+        .navbar {
+            width: 100%;
+            max-width: 1000px;
+            background-color: rgba(255, 255, 255, 0.90);
+            -webkit-backdrop-filter: blur(12px); 
+            backdrop-filter: blur(12px);
+            padding: 15px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            border-bottom: 4px solid #990000; /* Penn Red Accent */
+        }
+        .navbar-brand h1 {
+            color: #011F5B; /* Penn Blue */
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .navbar-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .welcome-text {
+            color: #333333;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .btn-logout {
+            background-color: transparent;
+            color: #990000;
+            border: 1px solid #990000;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .btn-logout:hover {
+            background-color: #990000;
+            color: #ffffff;
+        }
+
+        /* Main Dashboard Container */
+        .dashboard-container {
+            width: 100%;
+            max-width: 1000px;
+            flex-grow: 1;
+        }
+        .dashboard-header {
+            margin-bottom: 30px;
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .dashboard-header h2 {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        /* CSS Grid Layout */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        /* Service Cards */
+        .service-card {
+            background-color: rgba(255, 255, 255, 0.88);
+            -webkit-backdrop-filter: blur(12px); 
+            backdrop-filter: blur(12px);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            text-decoration: none;
+            color: #333333;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-top: 4px solid transparent;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border-top: 4px solid #011F5B;
+        }
+
+        /* Card Icons (SVGs) */
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            color: #011F5B;
+            margin-bottom: 20px;
+        }
+        .service-card h3 {
+            font-size: 20px;
+            color: #011F5B;
+            margin-bottom: 10px;
+        }
+        .service-card p {
+            font-size: 14px;
+            color: #555555;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        .card-btn {
+            background-color: #011F5B;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+        .service-card:hover .card-btn {
+            background-color: #011640;
+        }
+
+        /* Trademark Section */
+        .trademark {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 13px;
+            color: #ffffff;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+            padding-bottom: 20px;
+        }
+        .trademark span {
+            font-weight: 700;
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 600px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            .dashboard-header {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <h1>PennCloud</h1>
+        </div>
+        <div class="navbar-controls">
+            <!-- This username string will be injected by your C++ backend -->
+            <span class="welcome-text">Welcome, <strong>johndoe</strong></span>
+            <a href="https://html.onlineviewer.net/logout" class="btn-logout">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Main Dashboard -->
+    <main class="dashboard-container">
+        <div class="dashboard-header">
+            <h2>Your Workspace</h2>
+        </div>
+
+        <div class="services-grid">
+            
+            <!-- Webmail Service Card -->
+            <a href="https://html.onlineviewer.net/inbox" class="service-card">
+                <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+                <h3>Webmail</h3>
+                <p>Send, receive, and manage your emails.</p>
+                <div class="card-btn">Open Inbox</div>
+            </a>
+
+            <!-- Drive Service Card -->
+            <a href="https://html.onlineviewer.net/drive" class="service-card">
+                <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <h3>Storage Drive</h3>
+                <p>Upload, download, and organize your files.</p>
+                <div class="card-btn">Open Drive</div>
+            </a>
+
+            <!-- Account Settings Card -->
+            <a href="https://html.onlineviewer.net/account" class="service-card">
+                <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <h3>Account</h3>
+                <p>Manage your password and security settings.</p>
+                <div class="card-btn">Manage Account</div>
+            </a>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div class="trademark">
+        © 2026 <span>Team 13</span> | CIS 5050: Software Systems
+    </div>
+
+
+</body></html>

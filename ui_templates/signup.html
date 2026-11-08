@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PennCloud | Login</title>
+    <style>
+        /* Base Reset & Typography */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+            /* Fallback for older browsers, overridden by dvh if supported */
+            min-height: 100vh;
+            min-height: 100dvh; 
+            
+            margin: 0;
+            padding: 20px; /* Ensures the card never touches the screen edge on tiny phones */
+            
+            /* Replaces body::before to fix the scrolling/overflow issues */
+            background-image: url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2000'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Keeps image pinned if the user has to scroll */
+        }
+
+        /* The Blurred Background Image */
+        body::before {
+            content: "";
+            position: absolute;
+            /* Stretch slightly beyond the viewport to hide faded edges caused by the blur */
+            top: -20px; left: -20px; right: -20px; bottom: -20px;
+            
+            /* Replace this URL with your preferred UPenn campus image */
+            background-image: url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2000'); 
+            background-size: cover;
+            background-position: center;
+            
+            filter: blur(8px); /* Controls the intensity of the background blur */
+            z-index: -1; /* Keeps the image behind the UI */
+        }
+
+        .login-card {
+            background-color: rgba(255, 255, 255, 0.85);
+            
+            /* The Safari WebKit Prefix ensures iOS compatibility */
+            -webkit-backdrop-filter: blur(12px); 
+            backdrop-filter: blur(12px); 
+            
+            width: 100%;
+            max-width: 400px;
+            /* Scale padding down slightly on mobile to give inputs more room */
+            padding: clamp(25px, 5vw, 40px); 
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border-top: 6px solid #990000; /* Penn Red Accent */
+        }
+
+        /* Branding */
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .login-header h1 {
+            color: #011F5B; /* Penn Blue */
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .login-header p {
+            color: #555555;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* Form Inputs */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333333;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cccccc;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #011F5B;
+            box-shadow: 0 0 0 3px rgba(1, 31, 91, 0.15);
+            background-color: #ffffff;
+        }
+
+        /* Buttons & Links */
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            background-color: #011F5B; /* Penn Blue */
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+        .btn-primary:hover {
+            background-color: #011640;
+        }
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+        .footer-links {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555555;
+        }
+        .footer-links a {
+            color: #990000; /* Penn Red */
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        /* Subtle Trademark Formatting */
+        .trademark {
+            text-align: center;
+            margin-top: 35px;
+            font-size: 12px;
+            color: #777777; /* Muted gray to keep it unobtrusive */
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            padding-top: 15px;
+        }
+        .trademark span {
+            font-weight: 600;
+            color: #011F5B; /* Penn Blue accent for the team name */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <div class="login-header">
+            <h1>PennCloud</h1>
+            <p>Sign in to your workspace</p>
+        </div>
+
+        <form method="POST" action="/login">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn-primary">Sign In</button>
+        </form>
+
+        <div class="footer-links">
+            Don't have an account? <a href="/signup">Sign up</a>
+        </div>
+        <div class="trademark">
+            &copy; 2026 <span>Team 13</span> | CIS 5050: Software Systems
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PennCloud | Compose</title>
+    <style>
+        /* Base Reset & Typography */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100dvh; 
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+            color: #333333;
+        }
+
+        /* Blurred Background Image */
+        body::before {
+            content: "";
+            position: fixed;
+            top: -20px; left: -20px; right: -20px; bottom: -20px;
+            background-image: url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2000'); 
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px);
+            z-index: -1;
+        }
+
+        /* Top Navigation Bar */
+        .navbar {
+            width: 100%;
+            max-width: 2000px;
+            background-color: rgba(255, 255, 255, 0.90);
+            -webkit-backdrop-filter: blur(12px); 
+            backdrop-filter: blur(12px);
+            padding: 15px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 4px solid #990000;
+        }
+        .navbar-brand h1 {
+            color: #011F5B;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .navbar-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .btn-nav {
+            color: #011F5B;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+        }
+        .btn-nav:hover {
+            background-color: rgba(1, 31, 91, 0.1);
+        }
+
+        /* Main Compose Container */
+        .compose-container {
+            width: 100%;
+            max-width: 2000px;
+            background-color: rgba(255, 255, 255, 0.95);
+            -webkit-backdrop-filter: blur(12px); 
+            backdrop-filter: blur(12px);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            min-height: 600px;
+        }
+
+        /* Compose Header */
+        .compose-header {
+            padding: 20px 30px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.5);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .compose-header h2 {
+            color: #011F5B;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        /* Form Layout */
+        .compose-form {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .form-group {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            padding: 0 30px;
+            transition: background-color 0.2s;
+        }
+        .form-group:focus-within {
+            background-color: rgba(1, 31, 91, 0.02);
+        }
+        .form-group label {
+            width: 80px;
+            font-weight: 600;
+            color: #555555;
+            font-size: 15px;
+        }
+        .form-group input {
+            flex-grow: 1;
+            border: none;
+            background: transparent;
+            padding: 20px 0;
+            font-size: 16px;
+            color: #222;
+            outline: none;
+        }
+        
+        /* Body Textarea */
+        .body-group {
+            flex-grow: 1;
+            padding: 20px 30px;
+            align-items: stretch;
+            border-bottom: none;
+        }
+        .body-group textarea {
+            width: 100%;
+            flex-grow: 1;
+            border: none;
+            background: transparent;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #222;
+            outline: none;
+            resize: none;
+            font-family: inherit;
+            min-height: 350px;
+        }
+
+        /* Bottom Action Bar */
+        .compose-actions {
+            padding: 20px 30px;
+            background-color: rgba(250, 250, 250, 0.8);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .btn-send {
+            background-color: #011F5B;
+            color: #ffffff;
+            padding: 12px 28px;
+            border-radius: 6px;
+            border: none;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-send:hover {
+            background-color: #011640;
+        }
+        .btn-send:active {
+            transform: scale(0.98);
+        }
+        .btn-discard {
+            color: #777777;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: color 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-discard:hover {
+            color: #990000;
+        }
+
+        /* Trademark Section */
+        .trademark {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 13px;
+            color: #ffffff;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+            padding-bottom: 20px;
+        }
+        .trademark span {
+            font-weight: 700;
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 700px) {
+            .navbar {
+                flex-direction: column;
+                padding: 15px;
+            }
+            .form-group {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px 20px;
+            }
+            .form-group label {
+                width: 100%;
+                margin-bottom: 5px;
+                font-size: 13px;
+            }
+            .form-group input {
+                padding: 5px 0;
+                width: 100%;
+            }
+            .body-group {
+                padding: 20px;
+            }
+            .compose-actions {
+                padding: 15px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <h1>PennCloud Webmail</h1>
+        </div>
+        <div class="navbar-controls">
+            <a href="/inbox" class="btn-nav">Inbox</a>
+            <a href="/logout" class="btn-nav" style="color: #990000;">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Main Compose Area -->
+    <main class="compose-container">
+        
+        <div class="compose-header">
+            <h2>New Message</h2>
+        </div>
+
+        <!-- Compose Form: Points to the C++ backend endpoint -->
+        <form class="compose-form" action="/api/send_email" method="POST">
+            
+            <div class="form-group">
+                <label for="to-input">To</label>
+                <!-- Pre-fill capability: value="<?php echo $reply_to; ?>" equivalent in your C++ HTML string builder -->
+                <input type="text" id="to-input" name="recipient" placeholder="recipient@penncloud.local" required autocomplete="off">
+            </div>
+
+            <div class="form-group">
+                <label for="subject-input">Subject</label>
+                <input type="text" id="subject-input" name="subject" placeholder="Enter subject..." required autocomplete="off">
+            </div>
+
+            <div class="form-group body-group">
+                <textarea name="body" placeholder="Write your message here..." required></textarea>
+            </div>
+
+            <div class="compose-actions">
+                <a href="/inbox" class="btn-discard">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                    Discard
+                </a>
+                
+                <button type="submit" class="btn-send">
+                    Send Message
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+        </form>
+
+    </main>
+
+    <!-- Footer -->
+    <div class="trademark">
+        &copy; 2026 <span>Team 13</span> | CIS 5050: Software Systems
+    </div>
+
+</body>
+</html>

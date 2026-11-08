@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PennCloud | Drive</title>
+    <style>
+        /* Base Reset & Typography */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100dvh; 
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Blurred Background Image */
+        body::before {
+            content: "";
+            position: fixed;
+            top: -20px; left: -20px; right: -20px; bottom: -20px;
+            background-image: url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2000'); 
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px);
+            z-index: -1;
+        }
+
+        /* Top Navigation Bar */
+        .navbar {
+            width: 100%;
+            max-width: 1000px;
+            background-color: rgba(255, 255, 255, 0.90);
+            -webkit-backdrop-filter: blur(12px); 
+            backdrop-filter: blur(12px);
+            padding: 15px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 4px solid #990000; /* Penn Red Accent */
+        }
+        .navbar-brand h1 {
+            color: #011F5B;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .navbar-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .btn-nav {
+            color: #011F5B;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+        }
+        .btn-nav:hover {
+            background-color: rgba(1, 31, 91, 0.1);
+        }
+
+        /* Drive Main Container */
+        .drive-container {
+            width: 100%;
+            max-width: 1000px;
+            background-color: rgba(255, 255, 255, 0.90);
+            -webkit-backdrop-filter: blur(12px); 
+            backdrop-filter: blur(12px);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Drive Header (Breadcrumbs & Controls) */
+        .drive-header {
+            padding: 20px 30px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.5);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .breadcrumbs {
+            font-size: 18px;
+            font-weight: 600;
+            color: #011F5B;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .breadcrumbs a {
+            color: #011F5B;
+            text-decoration: none;
+        }
+        .breadcrumbs a:hover {
+            text-decoration: underline;
+        }
+        .breadcrumb-separator {
+            color: #777777;
+            font-weight: 400;
+            font-size: 16px;
+        }
+
+        /* Action Toolbar */
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .toolbar form {
+            display: flex;
+            gap: 10px;
+        }
+        .input-text {
+            padding: 8px 12px;
+            border: 1px solid #cccccc;
+            border-radius: 6px;
+            font-size: 13px;
+            outline: none;
+        }
+        .input-text:focus {
+            border-color: #011F5B;
+        }
+        
+        /* Custom File Upload Styling */
+        .file-upload-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+        .file-upload-wrapper input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .btn-action {
+            background-color: #011F5B;
+            color: #ffffff;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn-action:hover {
+            background-color: #011640;
+        }
+
+        /* File List Area */
+        .file-list {
+            display: flex;
+            flex-direction: column;
+            min-height: 400px;
+        }
+
+        /* Individual File/Folder Row */
+        .file-row {
+            display: flex;
+            align-items: center;
+            padding: 15px 30px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            color: #333333;
+            transition: background-color 0.2s ease;
+        }
+        .file-row:hover {
+            background-color: rgba(1, 31, 91, 0.04);
+        }
+        
+        /* Data Columns */
+        .file-icon {
+            flex: 0 0 40px;
+            color: #011F5B;
+            display: flex;
+            align-items: center;
+        }
+        .file-name {
+            flex: 1;
+            font-size: 15px;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .file-name a {
+            color: #333333;
+            text-decoration: none;
+        }
+        .file-name a:hover {
+            color: #011F5B;
+            text-decoration: underline;
+        }
+        .file-size {
+            flex: 0 0 100px;
+            text-align: right;
+            font-size: 13px;
+            color: #777777;
+            padding-right: 20px;
+        }
+        .file-actions {
+            flex: 0 0 150px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+        .action-link {
+            color: #011F5B;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .action-link:hover {
+            text-decoration: underline;
+        }
+        .action-link.danger {
+            color: #990000;
+        }
+
+        /* Trademark Section */
+        .trademark {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 13px;
+            color: #ffffff;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+            padding-bottom: 20px;
+        }
+        .trademark span {
+            font-weight: 700;
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 700px) {
+            .navbar {
+                flex-direction: column;
+                padding: 15px;
+            }
+            .drive-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .toolbar, .toolbar form {
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .file-row {
+                flex-wrap: wrap;
+                padding: 15px 20px;
+            }
+            .file-name {
+                flex: 0 0 calc(100% - 40px);
+            }
+            .file-size {
+                flex: 1;
+                text-align: left;
+                padding-left: 40px;
+                margin-top: 10px;
+            }
+            .file-actions {
+                flex: 1;
+                justify-content: flex-end;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <h1>PennCloud Storage</h1>
+        </div>
+        <div class="navbar-controls">
+            <a href="/dashboard" class="btn-nav">Back to Dashboard</a>
+            <a href="/logout" class="btn-nav" style="color: #990000;">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Main Drive Area -->
+    <main class="drive-container">
+        
+        <!-- Header & Toolbars -->
+        <div class="drive-header">
+            <!-- Breadcrumb Navigation -->
+            <div class="breadcrumbs">
+                <a href="/drive?path=/">Root</a>
+                <span class="breadcrumb-separator">/</span>
+                <span>CIS_5050</span>
+            </div>
+
+            <!-- Creation & Upload Controls -->
+            <div class="toolbar">
+                <!-- Create Folder Form -->
+                <form method="POST" action="/api/create_folder">
+                    <!-- Hidden input passes the current path back to the server -->
+                    <input type="hidden" name="current_path" value="/CIS_5050">
+                    <input type="text" name="folder_name" class="input-text" placeholder="New folder name..." required>
+                    <button type="submit" class="btn-action">Create Folder</button>
+                </form>
+
+                <!-- File Upload Form (Requires multipart/form-data) -->
+                <form method="POST" action="/api/upload" enctype="multipart/form-data">
+                    <input type="hidden" name="current_path" value="/CIS_5050">
+                    <div class="file-upload-wrapper">
+                        <button type="button" class="btn-action">Select File</button>
+                        <input type="file" name="uploaded_file" required>
+                    </div>
+                    <button type="submit" class="btn-action" style="background-color: #990000;">Upload</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Directory List Area -->
+        <div class="file-list">
+            {{FILE_LIST}}
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div class="trademark">
+        &copy; 2026 <span>Team 13</span> | CIS 5050: Software Systems
+    </div>
+
+</body>
+</html>

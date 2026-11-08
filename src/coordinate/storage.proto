@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package penncloud;
+
+enum OpType {
+  PUT = 0;
+  CPUT = 1;
+  DELETE = 2;
+}
+
+message LogRecord {
+  OpType op = 1;
+  string row = 2;
+  string col = 3;
+  bytes val1 = 4;       // PUT value / DELETE unused / CPUT expected value
+  bytes val2 = 5;       // CPUT replacement value
+  uint64 timestamp = 6; // Unix time in milliseconds
+  uint64 sequence = 7;  // Monotonic per local store; supports safe checkpoint/WAL handoff
+  bool cput_applied = 8; // Persist CPUT outcome so replay preserves failed comparisons
+}
+
+message Cell {
+  string col = 1;
+  bytes value = 2;
+}
+
+message Row {
+  string row_key = 1;
+  repeated Cell cells = 2;
+}
+
+message Checkpoint {
+  repeated Row rows = 1;
+  uint64 timestamp = 2;    // Unix time in milliseconds
+  uint64 last_sequence = 3; 
+}

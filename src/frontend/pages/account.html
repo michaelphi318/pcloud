@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PennCloud | Account</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100dvh; 
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: -20px; left: -20px; right: -20px; bottom: -20px;
+            background-image: url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2000'); 
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px);
+            z-index: -1;
+        }
+
+        .navbar {
+            width: 100%;
+            max-width: 1000px;
+            background-color: rgba(255, 255, 255, 0.90);
+            -webkit-backdrop-filter: blur(12px); 
+            backdrop-filter: blur(12px);
+            padding: 15px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            border-bottom: 4px solid #990000; /* Penn Red Accent */
+        }
+        .navbar-brand h1 {
+            color: #011F5B; /* Penn Blue */
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .navbar-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .welcome-text {
+            color: #333333;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .btn-nav {
+            background-color: transparent;
+            color: #011F5B;
+            border: 1px solid #011F5B;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .btn-nav:hover {
+            background-color: #011F5B;
+            color: #ffffff;
+        }
+
+        .account-container {
+            width: 100%;
+            max-width: 600px; /* Narrower for a focused form */
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .account-header {
+            margin-bottom: 30px;
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+        .account-header h2 {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .form-card {
+            background-color: rgba(255, 255, 255, 0.88);
+            -webkit-backdrop-filter: blur(12px); 
+            backdrop-filter: blur(12px);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            border-top: 4px solid #011F5B;
+        }
+        .form-card h3 {
+            font-size: 20px;
+            color: #011F5B;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333333;
+            margin-bottom: 8px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #cccccc;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #011F5B;
+            box-shadow: 0 0 0 3px rgba(1, 31, 91, 0.1);
+        }
+        
+        .btn-submit {
+            background-color: #011F5B;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            width: 100%;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 10px;
+        }
+        .btn-submit:hover {
+            background-color: #011640;
+        }
+
+        .trademark {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 13px;
+            color: #ffffff;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+            padding-bottom: 20px;
+        }
+        .trademark span {
+            font-weight: 700;
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            .form-card {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <h1>PennCloud</h1>
+        </div>
+        <div class="navbar-controls">
+            <a href="/dashboard" class="btn-nav">Back to Dashboard</a>
+        </div>
+    </nav>
+
+    <main class="account-container">
+        <div class="account-header">
+            <h2>Hello {{USERNAME}}</h2>
+        </div>
+
+        <div class="form-card">
+            <h3>Change Password</h3>
+            <form action="/api/change_password" method="POST">
+                <div class="form-group">
+                    <label for="old-password">Enter your old password</label>
+                    <input type="password" id="old-password" name="old_password" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="new-password">Enter your new password</label>
+                    <input type="password" id="new-password" name="new_password" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm-password">Confirm your new password</label>
+                    <input type="password" id="confirm-password" name="confirm_password" required>
+                </div>
+                
+                <button type="submit" class="btn-submit">Update Password</button>
+            </form>
+        </div>
+    </main>
+
+    <div class="trademark">
+        &copy; 2026 <span>Team 13</span> | CIS 5050: Software Systems
+    </div>
+
+</body>
+</html>

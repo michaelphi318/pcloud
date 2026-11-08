@@ -1,0 +1,95 @@
+[09:08:59] ERROR: Coordinator Primary 8001 heartbeat timeout. Initiating failover.
+[09:08:59] ERROR: Coordinator Primary 8002 heartbeat timeout. Initiating failover.
+[09:08:59] ERROR: Coordinator Primary 8003 heartbeat timeout. Initiating failover.
+[09:09:01] ERROR: Coordinator Primary 8001 heartbeat timeout. Initiating failover.
+[09:09:01] ERROR: Coordinator Primary 8002 heartbeat timeout. Initiating failover.
+[09:09:01] ERROR: Coordinator Primary 8003 heartbeat timeout. Initiating failover.
+[09:09:04] ERROR: Coordinator Primary 8001 heartbeat timeout. Initiating failover.
+[09:09:04] ERROR: Coordinator Primary 8002 heartbeat timeout. Initiating failover.
+[09:09:04] ERROR: Coordinator Primary 8003 heartbeat timeout. Initiating failover.
+[09:09:07] ERROR: Coordinator Primary 8001 heartbeat timeout. Initiating failover.
+[09:09:07] ERROR: Coordinator Primary 8002 heartbeat timeout. Initiating failover.
+[09:09:07] ERROR: Coordinator Primary 8003 heartbeat timeout. Initiating failover.
+[09:09:10] ERROR: Coordinator Primary 8002 heartbeat timeout. Initiating failover.
+[09:09:10] INFO: Coordinator Promoted Node 8001 to Primary for partition 'h'.
+[09:09:10] ERROR: Coordinator Primary 8003 heartbeat timeout. Initiating failover.
+[09:09:10] INFO: Coordinator Promoted Node 8001 to Primary for partition 't'.
+[09:13:35] ERROR: Coordinator Primary 8001 heartbeat timeout. Initiating failover.
+[09:13:35] ERROR: Coordinator Primary 8002 heartbeat timeout. Initiating failover.
+[09:13:35] ERROR: Coordinator Primary 8003 heartbeat timeout. Initiating failover.
+[09:13:38] ERROR: Coordinator Primary 8001 heartbeat timeout. Initiating failover.
+[09:13:38] ERROR: Coordinator Primary 8002 heartbeat timeout. Initiating failover.
+[09:13:38] ERROR: Coordinator Primary 8003 heartbeat timeout. Initiating failover.
+[09:13:41] ERROR: Coordinator Primary 8002 heartbeat timeout. Initiating failover.
+[09:13:41] INFO: Coordinator Promoted Node 8001 to Primary for partition 'h'.
+[09:13:41] ERROR: Coordinator Primary 8003 heartbeat timeout. Initiating failover.
+[09:13:41] INFO: Coordinator Promoted Node 8001 to Primary for partition 't'.
+[09:14:54] ERROR: Coordinator Primary 8001 heartbeat timeout. Initiating failover.
+[09:14:54] ERROR: Coordinator Primary 8002 heartbeat timeout. Initiating failover.
+[09:14:54] ERROR: Coordinator Primary 8003 heartbeat timeout. Initiating failover.
+[09:14:58] ERROR: Coordinator Primary 8002 heartbeat timeout. Initiating failover.
+[09:14:58] INFO: Coordinator Promoted Node 8001 to Primary for partition 'h'.
+[09:14:58] ERROR: Coordinator Primary 8003 heartbeat timeout. Initiating failover.
+[09:14:58] INFO: Coordinator Promoted Node 8001 to Primary for partition 't'.
+[09:15:13] ERROR: Coordinator Primary 8001 heartbeat timeout. Initiating failover.
+[09:15:13] INFO: Coordinator Promoted Node 8002 to Primary for partition 'a'.
+[09:15:13] ERROR: Coordinator Primary 8001 heartbeat timeout. Initiating failover.
+[09:15:13] INFO: Coordinator Promoted Node 8003 to Primary for partition 'h'.
+[09:15:13] ERROR: Coordinator Primary 8001 heartbeat timeout. Initiating failover.
+[09:15:13] INFO: Coordinator Promoted Node 8003 to Primary for partition 't'.
+[09:15:17] ERROR: Coordinator Primary 8002 heartbeat timeout. Initiating failover.
+[09:15:17] INFO: Coordinator Promoted Node 8003 to Primary for partition 'a'.
+[09:15:26] ERROR: Coordinator Primary 8003 heartbeat timeout. Initiating failover.
+[09:15:26] INFO: Coordinator Promoted Node 8001 to Primary for partition 'a'.
+[09:15:26] ERROR: Coordinator Primary 8003 heartbeat timeout. Initiating failover.
+[09:15:26] INFO: Coordinator Promoted Node 8001 to Primary for partition 'h'.
+[09:15:26] ERROR: Coordinator Primary 8003 heartbeat timeout. Initiating failover.
+[09:15:26] INFO: Coordinator Promoted Node 8001 to Primary for partition 't'.
+[09:15:29] ERROR: Coordinator Primary 8001 heartbeat timeout. Initiating failover.
+[09:15:29] ERROR: Coordinator Primary 8001 heartbeat timeout. Initiating failover.
+[09:15:29] ERROR: Coordinator Primary 8001 heartbeat timeout. Initiating failover.
+[09:15:32] ERROR: Coordinator Primary 8001 heartbeat timeout. Initiating failover.
+[09:15:32] ERROR: Coordinator Primary 8001 heartbeat timeout. Initiating failover.
+[09:15:32] ERROR: Coordinator Primary 8001 heartbeat timeout. Initiating failover.
+[09:15:38] ERROR: Coordinator Primary 8001 heartbeat timeout. Initiating failover.
+[09:15:38] ERROR: Coordinator Primary 8001 heartbeat timeout. Initiating failover.
+[09:15:38] ERROR: Coordinator Primary 8001 heartbeat timeout. Initiating failover.
+[09:15:55] ERROR: Coordinator Primary 8001 heartbeat timeout. Initiating failover.
+[09:15:55] INFO: Coordinator Promoted Node 8003 to Primary for partition 'a'.
+[09:15:55] ERROR: Coordinator Primary 8001 heartbeat timeout. Initiating failover.
+[09:15:55] INFO: Coordinator Promoted Node 8003 to Primary for partition 'h'.
+[09:15:55] ERROR: Coordinator Primary 8001 heartbeat timeout. Initiating failover.
+[09:15:55] INFO: Coordinator Promoted Node 8003 to Primary for partition 't'.
+[09:15:58] ERROR: Coordinator Primary 8003 heartbeat timeout. Initiating failover.
+[09:15:58] ERROR: Coordinator Primary 8003 heartbeat timeout. Initiating failover.
+[09:15:58] ERROR: Coordinator Primary 8003 heartbeat timeout. Initiating failover.
+[09:16:01] ERROR: Coordinator Primary 8003 heartbeat timeout. Initiating failover.
+[09:16:01] ERROR: Coordinator Primary 8003 heartbeat timeout. Initiating failover.
+[09:16:01] ERROR: Coordinator Primary 8003 heartbeat timeout. Initiating failover.
+[09:16:07] ERROR: Coordinator Primary 8003 heartbeat timeout. Initiating failover.
+[09:16:07] INFO: Coordinator Promoted Node 8002 to Primary for partition 'a'.
+[09:16:07] ERROR: Coordinator Primary 8003 heartbeat timeout. Initiating failover.
+[09:16:07] INFO: Coordinator Promoted Node 8002 to Primary for partition 'h'.
+[09:16:07] ERROR: Coordinator Primary 8003 heartbeat timeout. Initiating failover.
+[09:16:07] INFO: Coordinator Promoted Node 8002 to Primary for partition 't'.
+[09:17:42] ERROR: Coordinator Primary 8002 heartbeat timeout. Initiating failover.
+[09:17:42] ERROR: Coordinator Primary 8002 heartbeat timeout. Initiating failover.
+[09:17:42] ERROR: Coordinator Primary 8002 heartbeat timeout. Initiating failover.
+[09:17:45] ERROR: Coordinator Primary 8002 heartbeat timeout. Initiating failover.
+[09:17:45] ERROR: Coordinator Primary 8002 heartbeat timeout. Initiating failover.
+[09:17:45] ERROR: Coordinator Primary 8002 heartbeat timeout. Initiating failover.
+[09:17:48] ERROR: Coordinator Primary 8002 heartbeat timeout. Initiating failover.
+[09:17:48] ERROR: Coordinator Primary 8002 heartbeat timeout. Initiating failover.
+[09:17:48] ERROR: Coordinator Primary 8002 heartbeat timeout. Initiating failover.
+[09:18:06] ERROR: Coordinator Primary 8002 heartbeat timeout. Initiating failover.
+[09:18:06] ERROR: Coordinator Primary 8002 heartbeat timeout. Initiating failover.
+[09:18:06] ERROR: Coordinator Primary 8002 heartbeat timeout. Initiating failover.
+[09:18:09] ERROR: Coordinator Primary 8002 heartbeat timeout. Initiating failover.
+[09:18:09] ERROR: Coordinator Primary 8002 heartbeat timeout. Initiating failover.
+[09:18:09] ERROR: Coordinator Primary 8002 heartbeat timeout. Initiating failover.
+[09:21:58] ERROR: Coordinator Primary 8002 heartbeat timeout. Initiating failover.
+[09:21:58] INFO: Coordinator Promoted Node 8001 to Primary for partition 'a'.
+[09:21:58] ERROR: Coordinator Primary 8002 heartbeat timeout. Initiating failover.
+[09:21:58] INFO: Coordinator Promoted Node 8001 to Primary for partition 'h'.
+[09:21:58] ERROR: Coordinator Primary 8002 heartbeat timeout. Initiating failover.
+[09:21:58] INFO: Coordinator Promoted Node 8001 to Primary for partition 't'.
